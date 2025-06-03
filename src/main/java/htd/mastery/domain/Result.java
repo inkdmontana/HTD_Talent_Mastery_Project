@@ -1,4 +1,5 @@
 package htd.mastery.domain;
 
-public class Result {
+public class Result<T> {
+
 }
