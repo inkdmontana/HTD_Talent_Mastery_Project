@@ -8,23 +8,21 @@ June 2025
 
 ## ⏱️ Project Task List
 
-| Task                                   | Estimate    | Actual |
-|----------------------------------------|-------------|--------|
-| Create project plan                    | 1 day       | 4 hr   |
-| Create packages/proj-structure         | 1 hr        | 1 hr   |
-| Design model classes                   | 1 hr        |        |
-| Implement model classes                | 1 hr        |        |
-| Build ReservationRepository interface  | 1 hr        |        |
-| Implement ReservationFileRepository    | 2 hr        |        |
-| Build ReservationService               | 2.5 hr      |        |
-| Test Reservation logic                 | 1 hr        |        |
-| Implement Guest/Host repositories      | 1.5 hr      |        |
-| Implement Guest/Host services          | 1 hr        |        |
-| Build UI                               | 2.5 hr      |        |
-| Final testing & polish                 | 1 hr        |        |
-| Continue with stretch goals if allowed | 5 hr        |        |
-| -------------------------------------- | ----------- | ------ |
-| **Total**                              | **23.5 hr** |        |
+| Task                                   | Estimate | Actual |
+|----------------------------------------|----------|--------|
+| Create project plan                    | 4 hr     | 4 hr   |
+| Create packages/proj-structure         | 0.5 hr   | 0.5 hr |
+| Build models layer                     | 2 hr     | 0.6 hr |
+| Build data layer                       | 4 hr     | hr     |
+| Test data layer                        | 2 hr     |        |
+| Build domain layer                     | 4 hr     | hr     |
+| Test domain layer                      | 3 hr     |        |
+| Build UI layer                         | 4 hr     |        |
+| Final testing & polish                 | 1 hr     |        |
+| Continue with stretch goals if allowed | 4 hr     |        |
+| -------------------------------------- | -------- | ------ |
+
+
 
 
 

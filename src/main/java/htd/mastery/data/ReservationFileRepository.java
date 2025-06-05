@@ -5,11 +5,9 @@ import htd.mastery.models.Host;
 import htd.mastery.models.Reservation;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,25 +47,51 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     @Override
-    public Reservation add(Reservation reservation) {
-        return null;
+    public Reservation add(Reservation reservation) throws DataException {
+        List<Reservation> reservations = findByHost(reservation.getHost());
+        int nextId = getNextId(reservations);
+
+        reservation.setId(nextId);
+        reservations.add(reservation);
+        writeAll(reservations, reservation.getHost());
+
+        return reservation;
+    }
+    private int getNextId(List<Reservation> reservations) {
+        return reservations.stream().mapToInt(Reservation::getId)
+                .max().orElse(0) + 1;
     }
 
     @Override
-    public boolean update(Reservation reservation, Host host) {
+    public boolean update(Reservation reservation, Host host) throws DataException {
+        List<Reservation> all = findByHost(host);
+
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).getId() == reservation.getId()) {
+                all.set(i, reservation);
+                writeAll(all, host);
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
-    public boolean cancel(int reservationId, Host host) {
-        return false;
+    public boolean cancel(int reservationId, Host host) throws DataException {
+        List<Reservation> all = findByHost(host);
+
+        boolean removed = all.removeIf(r -> r.getId() == reservationId);
+        if (removed) {
+            writeAll(all, host);
+        }
+        return removed;
     }
 
     private Path getFilePath(Host host) {
         return Paths.get(directory, host.getId() + ".csv");
     }
 
-    private void writeAll(List<Reservation> reservations, Host host) throws IOException, DataException {
+    private void writeAll(List<Reservation> reservations, Host host) throws DataException {
         Path filePath = getFilePath(host);
 
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(filePath))) {

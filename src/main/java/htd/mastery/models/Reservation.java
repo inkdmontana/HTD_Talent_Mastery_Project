@@ -91,4 +91,8 @@ public class Reservation {
         }
         return total;
     }
+
+    public boolean isFuture() {
+        return startDate.isAfter(LocalDate.now());
+    }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ReservationRepository {
     List<Reservation> findByHost(Host host) throws DataException;
-    Reservation add(Reservation reservation);
-    boolean update(Reservation reservation, Host host);
-    boolean cancel(int reservationId, Host host);
+    Reservation add(Reservation reservation) throws DataException;
+    boolean update(Reservation reservation, Host host) throws DataException;
+    boolean cancel(int reservationId, Host host) throws DataException;
 }
