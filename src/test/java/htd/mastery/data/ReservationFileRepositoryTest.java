@@ -89,6 +89,16 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
+    void shouldNotUpdateNonexistentReservation() throws DataException {
+        Reservation fake = new Reservation();
+        fake.setId(99999);
+        fake.setHost(host);
+        boolean result = repository.update(fake, host);
+        assertFalse(result);
+    }
+
+
+    @Test
     void shouldCancelReservation() throws DataException {
         List<Reservation> before = repository.findByHost(host);
         Reservation toCancel = before.get(0);

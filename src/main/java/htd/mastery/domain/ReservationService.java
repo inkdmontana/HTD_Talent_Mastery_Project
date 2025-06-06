@@ -29,7 +29,7 @@ public class ReservationService {
     }
 
     public Result<Reservation> add(Reservation reservation) throws DataException {
-        Result<Reservation> result = validate(reservation);
+        Result<Reservation> result = validate(reservation, true);
         if (!result.isSuccess()) {
             return result;
         }
@@ -41,7 +41,7 @@ public class ReservationService {
     }
 
     public Result<Reservation> update(Reservation reservation) throws DataException {
-        Result<Reservation> result = validate(reservation);
+        Result<Reservation> result = validate(reservation, false);
         if (!result.isSuccess()) {
             return result;
         }
