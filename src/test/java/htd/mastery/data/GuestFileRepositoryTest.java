@@ -37,4 +37,10 @@ class GuestFileRepositoryTest {
         assertEquals(1, guest.getId());
         assertEquals("Sullivan", guest.getFirstName());
     }
+
+    @Test
+    void shouldNotFindGuestByInvalidId() {
+        Guest guest = repository.findById(999);
+        assertNull(guest);
+    }
 }

@@ -69,4 +69,11 @@ class HostFileRepositoryTest {
         Host host = repository.findByEmail("   ");
         assertNull(host);
     }
+
+    @Test
+    void shouldReturnNullForNonexistentHostId() throws DataException {
+        Host result = repository.findById("not-a-real-id");
+        assertNull(result);
+    }
+
 }

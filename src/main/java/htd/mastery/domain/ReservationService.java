@@ -94,7 +94,9 @@ public class ReservationService {
         //guest and host must be provided
         if (reservation.getGuest() == null || reservation.getHost() == null) {
             result.addMessage("Guest and Host are required");
+            return result;
         }
+
         //start and end date required
         if (reservation.getStartDate() == null || reservation.getEndDate() == null) {
             result.addMessage("Start date and end date are required");
