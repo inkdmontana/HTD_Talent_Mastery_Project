@@ -13,10 +13,10 @@ June 2025
 | Create project plan                    | 4 hr     | 4 hr   |
 | Create packages/proj-structure         | 0.5 hr   | 0.5 hr |
 | Build models layer                     | 2 hr     | 0.6 hr |
-| Build data layer                       | 4 hr     | hr     |
-| Test data layer                        | 2 hr     |        |
-| Build domain layer                     | 4 hr     | hr     |
-| Test domain layer                      | 3 hr     |        |
+| Build data layer                       | 4 hr     | 4.5 hr |
+| Test data layer                        | 2 hr     | 3      |
+| Build domain layer                     | 4 hr     | 4 hr   |
+| Test domain layer                      | 3 hr     | 3.5 hr |
 | Build UI layer                         | 4 hr     |        |
 | Final testing & polish                 | 1 hr     |        |
 | Continue with stretch goals if allowed | 4 hr     |        |
