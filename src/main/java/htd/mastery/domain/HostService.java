@@ -3,9 +3,11 @@ package htd.mastery.domain;
 import htd.mastery.data.DataException;
 import htd.mastery.data.HostRepository;
 import htd.mastery.models.Host;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class HostService {
 
     private final HostRepository repository;

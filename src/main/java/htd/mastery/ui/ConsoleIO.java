@@ -114,4 +114,9 @@ public class ConsoleIO {
             println(String.format(NUMBER_OUT_OF_RANGE, min, max));
         }
     }
+    public String readOptionalString(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine().trim();
+    }
+
 }

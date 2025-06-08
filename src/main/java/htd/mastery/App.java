@@ -4,30 +4,21 @@ import htd.mastery.data.*;
 import htd.mastery.domain.GuestService;
 import htd.mastery.domain.HostService;
 import htd.mastery.domain.ReservationService;
-import htd.mastery.models.Host;
-import htd.mastery.models.Reservation;
 import htd.mastery.ui.ConsoleIO;
 import htd.mastery.ui.Controller;
 import htd.mastery.ui.View;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 
-import java.io.Console;
-import java.util.List;
 
+@ComponentScan
+@PropertySource("classpath:data.properties")
 public class App {
     public static void main(String[] args) {
-        ConsoleIO io = new ConsoleIO();
-        View view = new View(io);
-
-        GuestRepository guestRepo = new GuestFileRepository("./data/guests.csv");
-        HostRepository hostRepo = new HostFileRepository("./data/hosts.csv");
-        ReservationRepository reservationRepo = new ReservationFileRepository("./data/reservations", guestRepo, hostRepo);
-
-        GuestService guestService = new GuestService(guestRepo);
-        HostService hostService = new HostService(hostRepo);
-        ReservationService reservationService = new ReservationService(reservationRepo, hostRepo, guestRepo);
-
-        Controller controller = new Controller(view, guestService, hostService, reservationService);
-
+        ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+        Controller controller = context.getBean(Controller.class);
         controller.run();
         }
     }

@@ -3,6 +3,8 @@ package htd.mastery.data;
 import htd.mastery.models.Guest;
 import htd.mastery.models.Host;
 import htd.mastery.models.Reservation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,12 +17,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class ReservationFileRepository implements ReservationRepository {
     private final String directory;
     private final GuestRepository guestRepo;
     private final HostRepository hostRepo;
 
-    public ReservationFileRepository(String directory, GuestRepository guestRepo, HostRepository hostRepo) {
+    public ReservationFileRepository(@Value("${reservationDirectory}")String directory, GuestRepository guestRepo, HostRepository hostRepo) {
         this.directory = directory;
         this.guestRepo = guestRepo;
         this.hostRepo = hostRepo;

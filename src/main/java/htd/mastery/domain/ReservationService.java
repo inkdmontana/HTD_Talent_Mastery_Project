@@ -7,12 +7,14 @@ import htd.mastery.data.ReservationRepository;
 import htd.mastery.models.Guest;
 import htd.mastery.models.Host;
 import htd.mastery.models.Reservation;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final HostRepository hostRepository;

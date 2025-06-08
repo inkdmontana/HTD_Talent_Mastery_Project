@@ -2,13 +2,15 @@ package htd.mastery.ui;
 
 import htd.mastery.models.Host;
 import htd.mastery.models.Reservation;
+import org.springframework.stereotype.Component;
 
-import java.io.Console;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
+@Component
 public class View {
 
     private ConsoleIO io;
@@ -71,7 +73,7 @@ public class View {
         return email;
     }
 
-    public void displayReservations(Host host, List<Reservation> reservations) {
+    public void displayReservationsFull(Host host, List<Reservation> reservations) {
         displayHeader("View Reservations for Host");
         io.printf("Host Email: %s%n", host.getEmail());
         String hostLocationHeader = String.format("%s: %s, %s", host.getLastName(), host.getCity(), host.getState());
@@ -83,6 +85,24 @@ public class View {
                     r.getGuest().getFirstName(), r.getGuest().getEmail());
         }
     }
+
+    public void displayReservationsForEditCancel(Host host, List<Reservation> reservations) {
+        String hostLocationHeader = String.format("%s: %s, %s", host.getLastName(), host.getCity(), host.getState());
+        displayHeader(hostLocationHeader);
+
+        for (Reservation r : reservations) {
+            System.out.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s%n",
+                    r.getId(),
+                    r.getStartDate(),
+                    r.getEndDate(),
+                    r.getGuest().getLastName(),
+                    r.getGuest().getFirstName(),
+                    r.getGuest().getEmail());
+        }
+    }
+
+
+
 
     public void displayReservationSummary(Reservation res) {
         displayHeader("Summary");
@@ -107,10 +127,34 @@ public class View {
         return input.equalsIgnoreCase("y");
     }
 
+    public LocalDate readDate(String prompt, LocalDate defaultValue) {
+        while (true) {
+            String input = io.readOptionalString(String.format("%s (%s): ", prompt, defaultValue.format(dateFormat)));
+            if (input.trim().isEmpty()) {
+                return defaultValue;
+            }
+            try {
+                return LocalDate.parse(input, dateFormat);
+            } catch (DateTimeParseException ex) {
+                io.println("Invalid date format. Please use MM/dd/yyyy");
+            }
+        }
+    }
+
+
     public LocalDate readDate(String prompt) {
-        return io.readLocalDate(prompt);
+        while (true) {
+            try {
+                String input = io.readString(prompt);
+                return LocalDate.parse(input, dateFormat); // <-- USE the formatter!
+            } catch (DateTimeParseException ex) {
+                io.println("Invalid date format. Please use MM/dd/yyyy");
+            }
+        }
     }
 
 
 
 }
+
+

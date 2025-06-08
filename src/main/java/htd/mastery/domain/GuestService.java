@@ -4,9 +4,11 @@ import htd.mastery.data.DataException;
 import htd.mastery.data.GuestRepository;
 import htd.mastery.models.Guest;
 import htd.mastery.models.Host;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class GuestService {
 
     private final GuestRepository repository;

@@ -8,11 +8,13 @@ import htd.mastery.domain.Result;
 import htd.mastery.models.Guest;
 import htd.mastery.models.Host;
 import htd.mastery.models.Reservation;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Component
 public class Controller {
     private final View view;
     private final GuestService guestService;
@@ -74,7 +76,7 @@ public class Controller {
             return;
         }
 
-        view.displayReservations(host, reservations);
+        view.displayReservationsFull(host, reservations);
     }
 
 
@@ -96,7 +98,7 @@ public class Controller {
         }
 
         List<Reservation> existing = reservationService.findByHost(host);
-        view.displayReservations(host, existing);
+        view.displayReservationsForEditCancel(host, existing);
 
         LocalDate start = view.readDate("Start (MM/dd/yyyy): ");
         LocalDate end = view.readDate("End (MM/dd/yyyy): ");
@@ -147,17 +149,17 @@ public class Controller {
             return;
         }
 
-        List<Reservation> reservations = reservationService.findByHost(host);
-        if (reservations == null || reservations.isEmpty()) {
-            view.displayStatus(false, "No reservations found.");
+        List<Reservation> reservations = reservationService.findByHost(host).stream()
+                .filter(r -> r.getGuest().getId() == guest.getId())
+                .filter(r -> r.getEndDate().isAfter(LocalDate.now()))
+                .collect(Collectors.toList());
+
+        if (reservations.isEmpty()) {
+            view.displayStatus(false, "No reservations found for that guest with that host.");
             return;
         }
 
-        String hostLocationHeader = String.format("%s: %s, %s", host.getLastName(), host.getCity(), host.getState());
-        view.displayHeader(hostLocationHeader);
-
-        view.displayReservations(host, reservations);
-
+        view.displayReservationsForEditCancel(host, reservations);
 
         Reservation toEdit = view.chooseReservationById(reservations);
         if (toEdit == null) {
@@ -165,14 +167,8 @@ public class Controller {
         }
 
         view.displayHeader(String.format("Editing Reservation %s", toEdit.getId()));
-
-
-        LocalDate newStart = view.readDate(String.format(
-                "Start (%s): ", toEdit.getStartDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-        ));
-        LocalDate newEnd = view.readDate(String.format(
-                "End (%s): ", toEdit.getEndDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-        ));
+        LocalDate newStart = view.readDate("Start", toEdit.getStartDate());
+        LocalDate newEnd = view.readDate("End", toEdit.getEndDate());
 
         toEdit.setStartDate(newStart);
         toEdit.setEndDate(newEnd);
@@ -193,8 +189,53 @@ public class Controller {
         }
     }
 
-    private void cancelReservation() throws DataException {
 
+    private void cancelReservation() throws DataException {
+        view.displayHeader("Cancel a Reservation");
+
+        String guestEmail = view.readValidEmail("Guest Email: ");
+        Guest guest = guestService.findByEmail(guestEmail);
+        if (guest == null) {
+            view.displayStatus(false, "Guest not found.");
+            return;
+        }
+
+        String hostEmail = view.readValidEmail("Host Email: ");
+        Host host = hostService.findByEmail(hostEmail);
+        if (host == null) {
+            view.displayStatus(false, "Host not found.");
+            return;
+        }
+
+        List<Reservation> reservations = reservationService.findByHost(host).stream()
+                .filter(r -> r.getGuest().getId() == guest.getId())
+                .filter(r -> r.getEndDate().isAfter(LocalDate.now()))
+                .collect(Collectors.toList());
+
+        if (reservations.isEmpty()) {
+            view.displayStatus(false, "No reservations found for that guest with that host.");
+            return;
+        }
+
+        view.displayReservationsForEditCancel(host, reservations);
+
+        Reservation toCancel = view.chooseReservationById(reservations);
+        if (toCancel == null) {
+            return;
+        }
+
+        if (!toCancel.getStartDate().isAfter(LocalDate.now())) {
+            view.displayHeader("Cannot cancel past reservation");
+            return;
+        }
+
+        Result<Reservation> result = reservationService.cancel(toCancel);
+        if (result.isSuccess()) {
+            view.displayStatus(true, String.format("Reservation %s cancelled", toCancel.getId()));
+        } else {
+            view.displayStatus(false, result.getMessages());
+        }
     }
+
 }
 
