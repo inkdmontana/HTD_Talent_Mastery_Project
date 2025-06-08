@@ -2,18 +2,20 @@ package htd.mastery.ui;
 
 public enum MainMenuOption {
 
-    EXIT(0, "Exit"),
-    VIEW_RESERVATIONS_FOR_HOST(1, "View Reservations for Host"),
-    MAKE_RESERVATION(2, "Make a Reservation"),
-    EDIT_RESERVATION(3, "Edit a Reservation"),
-    CANCEL_RESERVATION(4, "Cancel a Reservation");
+    EXIT(0, "Exit", false),
+    VIEW_RESERVATIONS_FOR_HOST(1, "View Reservations for Host", false),
+    MAKE_RESERVATION(2, "Make a Reservation", false),
+    EDIT_RESERVATION(3, "Edit a Reservation", false),
+    CANCEL_RESERVATION(4, "Cancel a Reservation", false),;
 
     private final int value;
     private final String message;
+    private final boolean hidden;
 
-    MainMenuOption(int value, String message) {
+    MainMenuOption(int value, String message, boolean hidden) {
         this.value = value;
         this.message = message;
+        this.hidden = hidden;
     }
 
     public static MainMenuOption fromValue(int value) {
@@ -31,5 +33,9 @@ public enum MainMenuOption {
 
     public String getMessage() {
         return message;
+    }
+
+    public boolean isHidden() {
+        return hidden;
     }
 }

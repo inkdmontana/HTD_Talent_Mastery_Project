@@ -3,6 +3,7 @@ package htd.mastery.domain;
 import htd.mastery.data.DataException;
 import htd.mastery.data.GuestRepository;
 import htd.mastery.models.Guest;
+import htd.mastery.models.Host;
 
 import java.util.List;
 
@@ -20,5 +21,9 @@ public class GuestService {
 
     public Guest findById(int id) throws DataException {
         return repository.findById(id);
+    }
+
+    public Guest findByEmail(String email) throws DataException {
+        return repository.findByEmail(email);
     }
 }

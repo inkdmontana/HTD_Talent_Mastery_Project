@@ -17,9 +17,13 @@ import java.util.List;
 
 public class ReservationFileRepository implements ReservationRepository {
     private final String directory;
+    private final GuestRepository guestRepo;
+    private final HostRepository hostRepo;
 
-    public ReservationFileRepository(String directory) {
+    public ReservationFileRepository(String directory, GuestRepository guestRepo, HostRepository hostRepo) {
         this.directory = directory;
+        this.guestRepo = guestRepo;
+        this.hostRepo = hostRepo;
     }
 
     @Override
@@ -120,8 +124,10 @@ public class ReservationFileRepository implements ReservationRepository {
             r.setEndDate(LocalDate.parse(fields[2]));
 
             int guestId = Integer.parseInt(fields[3]);
-            Guest guest = new Guest();
-            guest.setId(guestId);
+            Guest guest = guestRepo.findById(guestId);
+            if (guest == null) {
+                throw new DataException("Guest not found");
+            }
             r.setGuest(guest);
 
             r.setTotal(new BigDecimal(fields[4]));

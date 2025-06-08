@@ -32,8 +32,13 @@ public class ConsoleIO {
     }
 
     public String readString(String prompt) {
-        print(prompt);
-        return scanner.nextLine();
+        String value;
+        do {
+            System.out.print(prompt);
+            value = scanner.nextLine().trim();
+        } while (value.isBlank());
+
+        return value;
     }
 
     public String readRequiredString(String prompt) {
@@ -80,7 +85,7 @@ public class ConsoleIO {
 
     public LocalDate readLocalDate(String prompt) {
         while (true) {
-            String input = readRequiredString(prompt);
+            String input = readRequiredString(prompt).trim();
             try {
                 return LocalDate.parse(input, formatter);
             } catch (DateTimeParseException ex) {

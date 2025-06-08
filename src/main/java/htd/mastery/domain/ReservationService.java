@@ -84,7 +84,7 @@ public class ReservationService {
         return total;
     }
 
-    private Result<Reservation> validate(Reservation reservation, boolean isNewReservation) throws DataException {
+    public Result<Reservation> validate(Reservation reservation, boolean isNewReservation) throws DataException {
         Result<Reservation> result = new Result<>();
 
         if (reservation == null) {

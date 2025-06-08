@@ -1,29 +1,33 @@
 package htd.mastery;
 
-import htd.mastery.data.ReservationFileRepository;
+import htd.mastery.data.*;
+import htd.mastery.domain.GuestService;
+import htd.mastery.domain.HostService;
+import htd.mastery.domain.ReservationService;
 import htd.mastery.models.Host;
 import htd.mastery.models.Reservation;
+import htd.mastery.ui.ConsoleIO;
+import htd.mastery.ui.Controller;
+import htd.mastery.ui.View;
 
+import java.io.Console;
 import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        ReservationFileRepository repo = new ReservationFileRepository("./data/reservations"); // point to your folder
-        Host host = new Host();
-        host.setId("86f374af-ce43-450a-8326-4b9423c9fad7");
+        ConsoleIO io = new ConsoleIO();
+        View view = new View(io);
 
-        try {
-            List<Reservation> reservations = repo.findByHost(host);
-            for (Reservation r : reservations) {
-                System.out.println("Reservation ID: " + r.getId());
-                System.out.println("Start: " + r.getStartDate());
-                System.out.println("End: " + r.getEndDate());
-                System.out.println("Guest ID: " + r.getGuest().getId());
-                System.out.println("Total: $" + r.getTotal());
-                System.out.println("-----------");
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
+        GuestRepository guestRepo = new GuestFileRepository("./data/guests.csv");
+        HostRepository hostRepo = new HostFileRepository("./data/hosts.csv");
+        ReservationRepository reservationRepo = new ReservationFileRepository("./data/reservations", guestRepo, hostRepo);
+
+        GuestService guestService = new GuestService(guestRepo);
+        HostService hostService = new HostService(hostRepo);
+        ReservationService reservationService = new ReservationService(reservationRepo, hostRepo, guestRepo);
+
+        Controller controller = new Controller(view, guestService, hostService, reservationService);
+
+        controller.run();
         }
     }
-}

@@ -46,7 +46,7 @@ class ReservationServiceTest {
         Result<Reservation> result = service.add(reservation);
         assertTrue(result.isSuccess());
         assertNotNull(result.getPayload());
-        assertEquals(new BigDecimal("800.00"), result.getPayload().getTotal());
+        assertEquals(new BigDecimal("351.00"), result.getPayload().getTotal());
     }
 
     @Test
@@ -106,8 +106,8 @@ class ReservationServiceTest {
     @Test
     void shouldNotAddOverlappingReservation() throws DataException {
         Reservation reservation = makeValidReservation();
-        reservation.setStartDate(LocalDate.of(2025, 10, 2)); // overlaps with test double
-        reservation.setEndDate(LocalDate.of(2025, 10, 4));
+        reservation.setStartDate(LocalDate.of(2021, 11, 19)); // overlaps with test double
+        reservation.setEndDate(LocalDate.of(2021, 11, 21));
         Result<Reservation> result = service.add(reservation);
         assertFalse(result.isSuccess());
     }
@@ -119,7 +119,7 @@ class ReservationServiceTest {
         reservation.setEndDate(LocalDate.of(2025, 9, 5));
         Result<Reservation> result = service.add(reservation);
         assertTrue(result.isSuccess());
-        assertEquals(new BigDecimal("150.00"), result.getPayload().getTotal());
+        assertEquals(new BigDecimal("78.00"), result.getPayload().getTotal());
     }
 
     @Test
@@ -129,7 +129,7 @@ class ReservationServiceTest {
         reservation.setEndDate(LocalDate.of(2025, 9, 7));
         Result<Reservation> result = service.add(reservation);
         assertTrue(result.isSuccess());
-        assertEquals(new BigDecimal("250.00"), result.getPayload().getTotal());
+        assertEquals(new BigDecimal("97.50"), result.getPayload().getTotal());
     }
 
     @Test
@@ -139,7 +139,7 @@ class ReservationServiceTest {
         reservation.setEndDate(LocalDate.of(2025, 9, 8));   // Next Monday
         Result<Reservation> result = service.add(reservation);
         assertTrue(result.isSuccess());
-        assertEquals(new BigDecimal("1250.00"), result.getPayload().getTotal());
+        assertEquals(new BigDecimal("585.00"), result.getPayload().getTotal());
     }
 
     @Test

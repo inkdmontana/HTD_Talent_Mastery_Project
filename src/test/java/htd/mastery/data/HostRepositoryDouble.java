@@ -12,16 +12,16 @@ public class HostRepositoryDouble implements HostRepository {
 
     public HostRepositoryDouble() {
         HOST = new Host();
-        HOST.setId("host-abc-123");
-        HOST.setLastName("Doe");
-        HOST.setEmail("host@example.com");
-        HOST.setPhone("(123) 4567890");
-        HOST.setAddress("123 Main St.");
-        HOST.setCity("New York City");
-        HOST.setState("NY");
-        HOST.setPostalCode("12345");
-        HOST.setStandardRate(new BigDecimal("150.00"));
-        HOST.setWeekendRate(new BigDecimal("250.00"));
+        HOST.setId("86f374af-ce43-450a-8326-4b9423c9fad7");
+        HOST.setLastName("Sabie");
+        HOST.setEmail("rsabie9w@trellian.com");
+        HOST.setPhone("(317) 9110197");
+        HOST.setAddress("41602 Pierstorff Plaza");
+        HOST.setCity("Indianapolis");
+        HOST.setState("IN");
+        HOST.setPostalCode("46207");
+        HOST.setStandardRate(new BigDecimal("78.00"));
+        HOST.setWeekendRate(new BigDecimal("97.50"));
     }
 
     @Override

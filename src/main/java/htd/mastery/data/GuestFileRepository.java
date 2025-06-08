@@ -2,7 +2,7 @@ package htd.mastery.data;
 
 import htd.mastery.models.Guest;
 
-import javax.imageio.IIOException;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -48,6 +48,11 @@ public class GuestFileRepository implements GuestRepository{
         return guests;
     }
 
+    @Override
+    public Guest findByEmail(String email) throws DataException {
+        return findAll().stream().filter(g -> g.getEmail().equalsIgnoreCase(email)).findFirst().orElse(null);
+    }
+
     private Guest deserialize(String line) {
         String[] fields = line.split(",", -1);
         if (fields.length < 6) return null;
@@ -72,6 +77,8 @@ public class GuestFileRepository implements GuestRepository{
                 guest.getPhone(),
                 guest.getState());
     }
+
+
 
 
 }

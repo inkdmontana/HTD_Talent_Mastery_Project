@@ -11,12 +11,12 @@ public class GuestRepositoryDouble implements GuestRepository {
 
     public GuestRepositoryDouble() {
         GUEST = new Guest();
-        GUEST.setId(1);
-        GUEST.setFirstName("Jane");
-        GUEST.setLastName("Test");
-        GUEST.setEmail("guest@example.com");
-        GUEST.setPhone("(987) 6543210");
-        GUEST.setState("FL");
+        GUEST.setId(44);
+        GUEST.setFirstName("Georgina");
+        GUEST.setLastName("Praten");
+        GUEST.setEmail("gpraten17@rediff.com");
+        GUEST.setPhone("(901) 1754410");
+        GUEST.setState("TN");
     }
 
     @Override
@@ -29,6 +29,11 @@ public class GuestRepositoryDouble implements GuestRepository {
     @Override
     public Guest findById(int id) {
         return GUEST.getId() == id ? GUEST : null;
+    }
+
+    @Override
+    public Guest findByEmail(String email) {
+        return GUEST.getEmail().equalsIgnoreCase(email) ? GUEST : null;
     }
 
 }

@@ -26,7 +26,10 @@ class ReservationFileRepositoryTest {
 
         Files.copy(seed, test, StandardCopyOption.REPLACE_EXISTING);
 
-        repository = new ReservationFileRepository("src/test/data/reservations");
+        GuestRepository guestRepo = new GuestRepositoryDouble();
+        HostRepository hostRepo = new HostRepositoryDouble();
+
+        repository = new ReservationFileRepository("src/test/data/reservations", guestRepo, hostRepo);
 
         host = new Host();
         host.setId("86f374af-ce43-450a-8326-4b9423c9fad7");
@@ -58,7 +61,7 @@ class ReservationFileRepositoryTest {
         reservation.setHost(host);
 
         Guest guest = new Guest();
-        guest.setId(999);
+        guest.setId(44);
         reservation.setGuest(guest);
 
         reservation.setStartDate(LocalDate.of(2025, 10,1));

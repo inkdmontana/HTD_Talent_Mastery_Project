@@ -15,9 +15,9 @@ class HostServiceTest {
 
     @Test
     void shouldFindHostById() throws DataException {
-        Host host = service.findById("host-abc-123");
+        Host host = service.findById("86f374af-ce43-450a-8326-4b9423c9fad7");
         assertNotNull(host);
-        assertEquals("Doe", host.getLastName());
+        assertEquals("Sabie", host.getLastName());
     }
 
     @Test
@@ -30,6 +30,6 @@ class HostServiceTest {
     void shouldFindAllHosts() throws DataException {
         List<Host> hosts = service.findAll();
         assertNotNull(hosts);
-        assertTrue(hosts.size() >= 1);
+        assertTrue(hosts.size() > 0);
     }
 }

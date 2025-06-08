@@ -15,9 +15,9 @@ class GuestServiceTest {
 
     @Test
     void shouldFindGuestById() throws DataException {
-        Guest guest = service.findById(1);
+        Guest guest = service.findById(44);
         assertNotNull(guest);
-        assertEquals("Jane", guest.getFirstName());
+        assertEquals("Georgina", guest.getFirstName());
     }
 
     @Test
@@ -30,7 +30,7 @@ class GuestServiceTest {
     void shouldFindAllGuests() throws DataException {
         List<Guest> guests = service.findAll();
         assertNotNull(guests);
-        assertTrue(guests.size() >= 1);
+        assertTrue(guests.size() > 0);
     }
 
 
