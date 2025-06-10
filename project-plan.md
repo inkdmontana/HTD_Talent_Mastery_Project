@@ -18,7 +18,7 @@ June 2025
 | Build domain layer                     | 4 hr     | 4 hr   |
 | Test domain layer                      | 3 hr     | 3.5 hr |
 | Build UI layer                         | 4 hr     | 4 hr   |
-| Final testing & polish                 | 1 hr     |        |
+| Final testing & polish                 | 1 hr     | 3 hr   |
 | Continue with stretch goals if allowed | 4 hr     |        |
 | -------------------------------------- | -------- | ------ |
 

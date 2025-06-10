@@ -77,21 +77,6 @@ public class Reservation {
         return !this.startDate.isAfter(end) && !this.endDate.isBefore(start);
     }
 
-    public BigDecimal calculateTotal() {
-        BigDecimal total = BigDecimal.ZERO;
-        LocalDate current = startDate;
-
-        while(!current.isAfter(endDate.minusDays(1))) {
-            boolean isWeekend = (current.getDayOfWeek() == DayOfWeek.FRIDAY ||
-                                current.getDayOfWeek() == DayOfWeek.SATURDAY);
-            BigDecimal rate = isWeekend ? host.getWeekendRate() : host.getStandardRate();
-            total = total.add(rate);
-
-            current = current.plusDays(1);
-        }
-        return total;
-    }
-
     public boolean isFuture() {
         return startDate.isAfter(LocalDate.now());
     }

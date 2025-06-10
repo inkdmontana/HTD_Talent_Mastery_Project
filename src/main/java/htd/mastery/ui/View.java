@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -79,26 +80,20 @@ public class View {
         String hostLocationHeader = String.format("%s: %s, %s", host.getLastName(), host.getCity(), host.getState());
         displayHeader(hostLocationHeader);
 
-        for (Reservation r : reservations) {
-            io.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s%n",
-                    r.getId(), r.getStartDate(), r.getEndDate(), r.getGuest().getLastName(),
-                    r.getGuest().getFirstName(), r.getGuest().getEmail());
-        }
+        reservations.stream().sorted(Comparator.comparing(Reservation::getStartDate))
+                .forEach(r -> io.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s%n",
+                        r.getId(), r.getStartDate(), r.getEndDate(), r.getGuest().getLastName(),
+                        r.getGuest().getFirstName(), r.getGuest().getEmail()));
     }
 
     public void displayReservationsForEditCancel(Host host, List<Reservation> reservations) {
         String hostLocationHeader = String.format("%s: %s, %s", host.getLastName(), host.getCity(), host.getState());
         displayHeader(hostLocationHeader);
 
-        for (Reservation r : reservations) {
-            System.out.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s%n",
-                    r.getId(),
-                    r.getStartDate(),
-                    r.getEndDate(),
-                    r.getGuest().getLastName(),
-                    r.getGuest().getFirstName(),
-                    r.getGuest().getEmail());
-        }
+        reservations.stream().sorted(Comparator.comparing(Reservation::getStartDate))
+                .forEach(r -> io.printf("ID: %s, %s - %s, Guest: %s, %s, Email: %s%n",
+                        r.getId(), r.getStartDate(), r.getEndDate(), r.getGuest().getLastName(),
+                        r.getGuest().getFirstName(), r.getGuest().getEmail()));
     }
 
 

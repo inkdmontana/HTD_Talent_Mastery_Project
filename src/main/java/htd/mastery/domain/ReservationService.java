@@ -72,20 +72,6 @@ public class ReservationService {
         return result;
     }
 
-    public BigDecimal calculateTotal(Reservation reservation, Host host) throws DataException {
-        BigDecimal total = BigDecimal.ZERO;
-        LocalDate current = reservation.getStartDate();
-        while (!current.isAfter(reservation.getEndDate().minusDays(1))) {
-            if (current.getDayOfWeek() == DayOfWeek.SATURDAY || current.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                total = total.add(host.getWeekendRate());
-            } else {
-                total = total.add(host.getStandardRate());
-            }
-            current = current.plusDays(1);
-        }
-        return total;
-    }
-
     public Result<Reservation> validate(Reservation reservation, boolean isNewReservation) throws DataException {
         Result<Reservation> result = new Result<>();
 
@@ -126,8 +112,8 @@ public class ReservationService {
         List<Reservation> existing = reservationRepository.findByHost(reservation.getHost());
         for (Reservation r : existing) {
             boolean isSame = r.getId() == reservation.getId();
-            boolean overlaps = reservation.getStartDate().isBefore(r.getEndDate())
-                    && reservation.getEndDate().isAfter(r.getStartDate());
+            boolean overlaps = !reservation.getStartDate().isBefore(r.getStartDate())
+                    && !reservation.getStartDate().isAfter(r.getEndDate());
 
             if (!isSame && overlaps) {
                 result.addMessage("Reservation dates overlap with existing reservation");
@@ -141,6 +127,21 @@ public class ReservationService {
         }
 
         return result;
+    }
+
+    public BigDecimal calculateTotal(Reservation reservation, Host host) throws DataException {
+        BigDecimal total = BigDecimal.ZERO;
+        LocalDate current = reservation.getStartDate();
+
+        while(!current.isAfter(reservation.getEndDate().minusDays(1))) {
+            boolean isWeekend = (current.getDayOfWeek() == DayOfWeek.FRIDAY ||
+                    current.getDayOfWeek() == DayOfWeek.SATURDAY);
+            BigDecimal rate = isWeekend ? host.getWeekendRate() : host.getStandardRate();
+            total = total.add(rate);
+
+            current = current.plusDays(1);
+        }
+        return total;
     }
 
 
